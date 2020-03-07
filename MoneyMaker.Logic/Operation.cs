@@ -13,5 +13,9 @@ namespace MoneyMeter.Logic
             Value = value;
             Category = category;
         }
+        public override string ToString()
+        {
+            return string.Concat(Value, ":", Category.ToString());
+        }
     }
 }

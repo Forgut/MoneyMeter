@@ -6,18 +6,12 @@ using System.Text;
 
 namespace MoneyMeter.Logic
 {
-    public class Balance
+    public class Balance : Module
     {
-        private string _filePath;
-        private string[] GetOperationsFromFile()
-        {
-            var fileContent = File.ReadAllText(_filePath).Replace("\r", "").Replace("\n", "");
-            return fileContent.ToLower().Split(';'); 
-        }
-        private void BuildListFromFile()
+        protected override void BuildListFromFile()
         {
             Operations = new List<Operation>();
-            var operations = GetOperationsFromFile();
+            var operations = _fileFactory.ReadNormalizedData().Split(';');
             foreach (var operation in operations)
             {
                 var pair = operation.Split(':');
@@ -34,31 +28,19 @@ namespace MoneyMeter.Logic
                             category = ECategory.Outcome;
                             break;
                         default:
-                            throw new Exception("Corrupted data in file");
+                            throw new Exception("Corrupted data in file " + _filePath);
                     }
                     Operations.Add(new Operation(value, category));
                 }
             }
         }
-        public Balance(string filePath)
+        public Balance(string filePath) : base(filePath)
         {
-            _filePath = filePath;
-            if (!File.Exists(_filePath))
-                File.Create(_filePath);
-            BuildListFromFile();
         }
-        public void ClearFile()
+
+        public override void OverrideFileValues()
         {
-            File.WriteAllText(_filePath, string.Empty);
-        }
-        public void OverrideFileValues()
-        {
-            var newFileContent = string.Empty;
-            foreach (var operation in Operations)
-            {
-                newFileContent += string.Concat(operation.Value, ":", operation.Category.ToString(), ";");
-            }
-            File.WriteAllText(_filePath, newFileContent);
+            _fileFactory.OverrideFileWithValues(Operations);
         }
         public decimal SpentMoney
         {

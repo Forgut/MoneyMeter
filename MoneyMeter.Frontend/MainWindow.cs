@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MoneyMeter.Frontend
@@ -9,6 +10,7 @@ namespace MoneyMeter.Frontend
     public class MainWindow
     {
         private Balance _balance;
+        private TodoList _todoList;
         private void PrintCommands()
         {
             Console.WriteLine("List of commands:");
@@ -19,6 +21,9 @@ namespace MoneyMeter.Frontend
             Console.WriteLine("save                  saves file content");
             Console.WriteLine("clear                 clears current file");
             Console.WriteLine("history               prints history of transactions");
+            Console.WriteLine("todo                  prints list of thins to do");
+            Console.WriteLine("add-todo <value>      adds value to todo list");
+            Console.WriteLine("remove-todo <value>   removes value from todo list");
             Console.WriteLine("exit                  exits program");
         }
         private void PrintLogo()
@@ -78,10 +83,14 @@ namespace MoneyMeter.Frontend
             Console.WriteLine("MoneyToSpare " + _balance.MoneyToSpare);
             Console.ForegroundColor = previousColor;
         }
-        public void SaveFile()
+        public void SaveFiles()
         {
-            Console.Write("Saving file...");
+            Console.Write("Saving file of money balance...");
             _balance.OverrideFileValues();
+            Console.WriteLine(" succeded!");
+
+            Console.WriteLine("Saving file of todo list...");
+            _todoList.OverrideFileValues();
             Console.WriteLine(" succeded!");
         }
         private void ClearFile()
@@ -140,9 +149,46 @@ namespace MoneyMeter.Frontend
         {
             return input.ToLower().Trim(' ').Trim('\n');
         }
-        public MainWindow(Balance balance)
+        private void PrintToDo()
+        {
+            if (!_todoList.ThingsToDo.Any())
+            {
+                Console.WriteLine("No things on todo list");
+                return;
+            }
+
+            int i = 1;
+            foreach (var thing in _todoList.ThingsToDo)
+            {
+                Console.WriteLine(string.Concat(i, ". ", thing));
+                i++;
+            }
+        }
+        private void AddToDo(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                Console.WriteLine("incorrect data");
+                return;
+            }
+            _todoList.AddToToDoList(value);
+            Console.WriteLine(string.Concat(value, " added to todo list"));
+        }
+        private void RemoveTodo(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                Console.WriteLine("incorrect data");
+                return;
+            }
+            Console.WriteLine("Removing from todo list...");
+            _todoList.RemoveFromToDoList(value);
+            Console.WriteLine(" done!");
+        }
+        public MainWindow(Balance balance, TodoList todoList)
         {
             _balance = balance;
+            _todoList = todoList;
             PrintLogo();
             bool exit = false;
             while (!exit)
@@ -155,22 +201,31 @@ namespace MoneyMeter.Frontend
                         PrintCommands();
                         break;
                     case "income":
-                        AddValueToBalance(result.Length > 1 ? result[1] : null);
+                        AddValueToBalance(result.Length == 2 ? result[1] : null);
                         break;
                     case "outcome":
-                        AddOutcomeToBalance(result[1], result.Length > 2 ? result[2] : null);
+                        AddOutcomeToBalance(result[1], result.Length == 3 ? result[2] : null);
                         break;
                     case "status":
                         ShowStatus();
                         break;
                     case "save":
-                        SaveFile();
+                        SaveFiles();
                         break;
                     case "clear":
                         ClearFile();
                         break;
                     case "history":
                         PrintTransactionsHistory();
+                        break;
+                    case "todo":
+                        PrintToDo();
+                        break;
+                    case "add-todo":
+                        AddToDo(result.Length == 2 ? result[1] : null);
+                        break;
+                    case "remove-todo":
+                        RemoveTodo(result.Length == 2 ? result[1] : null);
                         break;
                     case "exit":
                         exit = true;

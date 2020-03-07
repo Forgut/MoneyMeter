@@ -7,8 +7,9 @@ namespace MoneyMeter.Frontend
     {
         static void Main(string[] args)
         {
-            var balance = new Balance("Data.txt");
-            var mainWindow = new MainWindow(balance);
+            var balance = new Balance("Money.txt");
+            var todoList = new TodoList("Todo.txt");
+            var mainWindow = new MainWindow(balance, todoList);
         }
     }
 }
