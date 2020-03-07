@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMeter.Frontend", "MoneyMeter.Frontend\MoneyMeter.Frontend.csproj", "{35813D54-A0FB-4C99-BCB2-94ED7782DF21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMeter.Logic", "MoneyMaker.Logic\MoneyMeter.Logic.csproj", "{CCD671B6-8745-4C88-9AB7-E903F87BC1B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35813D54-A0FB-4C99-BCB2-94ED7782DF21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35813D54-A0FB-4C99-BCB2-94ED7782DF21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35813D54-A0FB-4C99-BCB2-94ED7782DF21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35813D54-A0FB-4C99-BCB2-94ED7782DF21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD671B6-8745-4C88-9AB7-E903F87BC1B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD671B6-8745-4C88-9AB7-E903F87BC1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD671B6-8745-4C88-9AB7-E903F87BC1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD671B6-8745-4C88-9AB7-E903F87BC1B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E9A8380-1703-455F-AD66-E44219CED77E}
+	EndGlobalSection
+EndGlobal
