@@ -124,6 +124,18 @@ namespace MoneyMeter.Frontend
         {
             Console.WriteLine("Sorry, I can't understand you");
         }
+        private void PrintAfterXSpaces(object value, int spaces, string message, bool writeLine = false)
+        {
+            int length = spaces - value.ToString().Length;
+            for (int i = 0; i < length; i++)
+            {
+                Console.Write(" ");
+            }
+            if (writeLine)
+                Console.WriteLine(message);
+            else
+                Console.Write(message);
+        }
         private void PrintTransactionsHistory()
         {
             var previousColor = Console.ForegroundColor;
@@ -139,7 +151,8 @@ namespace MoneyMeter.Frontend
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("-");
                 }
-                Console.WriteLine(operation.Value);
+                Console.Write(operation.Value);
+                PrintAfterXSpaces(operation.Value, 7, operation.DateAdded.ToShortDateString(), true);
             }
             Console.ForegroundColor = previousColor;
             Console.WriteLine("----");

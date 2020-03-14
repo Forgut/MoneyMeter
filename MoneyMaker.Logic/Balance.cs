@@ -15,7 +15,7 @@ namespace MoneyMeter.Logic
             foreach (var operation in operations)
             {
                 var pair = operation.Split(':');
-                if (pair.Length == 2)
+                if (pair.Length == 3)
                 {
                     decimal.TryParse(pair[0], out decimal value);
                     ECategory category;
@@ -30,7 +30,10 @@ namespace MoneyMeter.Logic
                         default:
                             throw new Exception("Corrupted data in file " + _filePath);
                     }
-                    Operations.Add(new Operation(value, category));
+                    if (!DateTime.TryParse(pair[2], out DateTime dateAdded))
+                        throw new Exception("Corrucpted date time in file " + _filePath);
+
+                    Operations.Add(new Operation(value, category, dateAdded));
                 }
             }
         }
@@ -66,11 +69,11 @@ namespace MoneyMeter.Logic
         public List<Operation> Operations { get; internal set; }
         public void AddDailyValue(decimal value)
         {
-            Operations.Add(new Operation(value, ECategory.Income));
+            Operations.Add(new Operation(value, ECategory.Income, DateTime.Today));
         }
         public void AddSpentMoney(decimal value)
         {
-            Operations.Add(new Operation(value, ECategory.Outcome));
+            Operations.Add(new Operation(value, ECategory.Outcome, DateTime.Today));
         }
     }
 }

@@ -8,14 +8,16 @@ namespace MoneyMeter.Logic
     {
         public decimal Value { get; set; }
         public ECategory Category { get; set; }
-        public Operation(decimal value, ECategory category)
+        public DateTime DateAdded { get; set; }
+        public Operation(decimal value, ECategory category, DateTime dateAdded)
         {
             Value = value;
             Category = category;
+            DateAdded = dateAdded;
         }
         public override string ToString()
         {
-            return string.Concat(Value, ":", Category.ToString());
+            return string.Concat(Value, ":", Category.ToString(), ":", DateAdded.ToShortDateString());
         }
     }
 }
